@@ -1,24 +1,33 @@
 {
   "private": true,
+  "sideEffects": [
+    "*.less",
+    "*.css"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "antd": "^4.23.2",
+    "babel-plugin-add-react-displayname": "0.0.5",
     "classnames": "^2.3.2",
     "date-fns": "^2.29.3",
     "gray-matter": "^4.0.3",
     "next": "latest",
+    "next-compose-plugins": "^2.2.1",
+    "next-plugin-antd-less": "^1.8.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "remark": "^14.0.2",
     "remark-html": "^15.0.1"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.9",
+    "autoprefixer": "^10.4.11",
+    "babel-plugin-import": "^1.13.5",
+    "babel-plugin-module-resolver": "^4.1.0",
     "postcss": "^8.4.16",
-    "sass": "^1.54.9",
-    "tailwindcss": "^3.1.8"
+    "sass": "^1.54.9"
   }
 }
