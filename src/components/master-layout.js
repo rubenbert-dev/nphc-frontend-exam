@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -6,6 +6,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import cln from 'classnames';
@@ -14,11 +15,33 @@ import utilStyles from '../styles/utils.module.less';
 import styles from './master-layout.module.less';
 
 const { Header, Sider, Content, Footer } = Layout;
-const name = 'Pingz Pong';
+const name = 'Ruben Bert Pingol';
+
+function getMenuItem(label, key, icon, children) {
+    return {
+        key,
+        icon,
+        children,
+        label,
+    }
+}
+
+const defaultActiveMenuKey = '/employees';
+const menuItems = [
+    getMenuItem(<Link href="/employees"><a>Employees</a></Link>, '/employees', <UserOutlined />),
+    getMenuItem(<Link href="/users-upload"><a>Users upload</a></Link>, '/users-upload', <UploadOutlined />),
+];
 
 export default function MasterLayout({ children, header }) {
     const PageHeader = () => header || null;
+    const { asPath } = useRouter();
+    const [activeMenuKey, setActiveMenuKey] = useState(defaultActiveMenuKey);
     const [collapsed, setCollapsed] = useState(false);
+
+    useEffect(() => {
+        setActiveMenuKey(asPath);
+    }, [asPath]);
+
     return (
         <Layout className={styles.masterLayout}>
             <Sider trigger={null} collapsed={collapsed} collapsible>
@@ -33,27 +56,9 @@ export default function MasterLayout({ children, header }) {
                 <Menu
                     theme="dark"
                     mode="inline"
-                    defaultSelectedKeys={['1']}
-                    items={[
-                        {
-                            key: '1',
-                            icon: <UserOutlined />,
-                            label: (
-                                <Link href="/employees">
-                                    <a>Employees</a>
-                                </Link>
-                            ),
-                        },
-                        {
-                            key: '3',
-                            icon: <UploadOutlined />,
-                            label: (
-                                <Link href="/users-upload">
-                                    <a>Users Upload</a>
-                                </Link>
-                            ),
-                        },
-                    ]}
+                    defaultSelectedKeys={['/employees']}
+                    selectedKeys={[activeMenuKey]}
+                    items={menuItems}
                 />
             </Sider>
             <Layout>
@@ -64,7 +69,7 @@ export default function MasterLayout({ children, header }) {
                     })}
                 </Header>
                 <Content>{children}</Content>
-                <Footer className={cln(styles.masterFooter)}>footer</Footer>
+                <Footer className={cln(styles.masterFooter)}>All rights reserved 2022.</Footer>
             </Layout>
         </Layout>
     );
