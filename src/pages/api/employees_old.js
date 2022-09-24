@@ -1,4 +1,4 @@
-
+import clientPromise from "../../utils/mongodb";
 
 export const employeesList = [
     {
@@ -46,6 +46,39 @@ export const employeesList = [
  * > Fetch employees
  * > Create endpoints for edit/update and delete employee
  */
-export default (req, res) => {
-    res.status(200).json(employeesList);
+export default async (req, res) => {
+    const client = await clientPromise;
+    const db = client.db("nphc_db");
+    
+    const {
+        query: { id },
+        method,
+    } = req;
+
+    switch (method) {
+        case 'GET':
+            return getEmployees(res, db);
+        case 'POST':
+            return saveEmployee(req, db);
+        default:
+            break;
+    }
+}
+
+export async function getEmployees(res, db) {
+    try {
+        const employees = await db.collection("employees")
+            .find({})
+            .sort({ metacritic: -1 })
+            .limit(10)
+            .toArray();
+
+        res.status(200).json(employees);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+export async function getEmployeeById (req, res) {
+
 }

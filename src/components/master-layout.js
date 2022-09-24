@@ -5,7 +5,7 @@ import {
     UploadOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Skeleton, Space, Typography } from 'antd';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -45,14 +45,18 @@ export default function MasterLayout({ children, header }) {
     return (
         <Layout className={styles.masterLayout}>
             <Sider trigger={null} collapsed={collapsed} collapsible>
-                <Image
+                {/* <Image
                     priority
                     src="/images/profile.jpg"
                     className={cln([utilStyles.borderCircle])}
                     height={108}
                     width={108}
                     alt={name}
-                />
+                /> */}
+                <Space align="center" size="large" direction="vertical" className={styles.masterUserAvatar}>
+                    <Skeleton.Avatar active="true" size={108} shape="circle" />
+                    <Typography.Title level={5}>{name}</Typography.Title>
+                </Space>
                 <Menu
                     theme="dark"
                     mode="inline"
@@ -65,7 +69,7 @@ export default function MasterLayout({ children, header }) {
                 <Header className={styles.masterContentMainHeader}>
                     {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                         className: styles.masterSiderTrigger,
-                        onClick: () => setCollapsed(!collapsed),
+                        // onClick: () => setCollapsed(!collapsed),
                     })}
                 </Header>
                 <Content>{children}</Content>
